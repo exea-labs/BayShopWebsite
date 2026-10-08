@@ -122,17 +122,6 @@
     gsap.to(heroBits, { y: 0, opacity: 1, duration: 0.9, stagger: 0.085, ease: 'power3.out' });
   }
 
-  // Only the sky parallaxes. Drifting the whole scene pulls the waterline up off
-  // the section edge and opens a strip of bare gradient above the next section.
-  // `y` is in SVG user units, so the offset is identical at every viewport width.
-  if (document.querySelector('.hero-scene .sky')) {
-    gsap.to('.hero-scene .sky', {
-      y: 34,
-      ease: 'none',
-      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
-    });
-  }
-
   var scrollAnimated = document.querySelectorAll('[data-anim]:not([data-anim="hero"])');
 
   if (scrollAnimated.length) {
