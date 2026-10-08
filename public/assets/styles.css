@@ -276,21 +276,15 @@ a { color: var(--teal-deep); }
   flex: none;
 }
 
-/* Palm. Decorative, so it sits out of the text's way in the hero's bottom
-   corner rather than taking a column of its own. The trunk base is flush with
-   the section edge, which is what makes it read as standing on the ground. */
+/* Palm. Sized in em so it tracks the heading instead of needing its own
+   breakpoints, and set on the baseline so it stands on the line of text
+   rather than floating beside it. */
 .hero-palm {
-  position: absolute;
-  right: clamp(8px, 4vw, 64px);
-  bottom: 0;
-  width: clamp(116px, 15vw, 188px);
-  pointer-events: none;
-}
-
-.hero-palm svg {
-  display: block;
-  width: 100%;
-  height: auto;
+  display: inline-block;
+  height: 0.72em;
+  width: auto;
+  margin-left: 0.16em;
+  vertical-align: baseline;
   overflow: visible;
 }
 
@@ -303,13 +297,15 @@ a { color: var(--teal-deep); }
 }
 
 /* Fronds lag the trunk on deliberately unrelated periods, so the crown never
-   pulses in unison the way a single shared duration makes it. */
+   pulses in unison the way a single shared duration makes it. Each origin is
+   the frond's own corner of the crown, read off its path bbox. */
 .frond { transform-box: fill-box; animation: frond 7.3s ease-in-out infinite alternate; }
-.frond--r  { transform-origin: 0% 50%;   animation-duration: 6.7s;  animation-delay: -1.9s; }
-.frond--l  { transform-origin: 100% 50%; animation-duration: 8.1s;  animation-delay: -4.3s; }
-.frond--u  { transform-origin: 50% 100%; animation-duration: 9.4s;  animation-delay: -2.8s; }
-.frond--dr { transform-origin: 0% 0%;    animation-duration: 7.9s;  animation-delay: -5.6s; }
-.frond--dl { transform-origin: 100% 0%;  animation-duration: 10.2s; animation-delay: -3.4s; }
+.frond--r  { transform-origin: 0% 100%;   animation-duration: 6.7s;  animation-delay: -1.9s; }
+.frond--l  { transform-origin: 100% 100%; animation-duration: 8.1s;  animation-delay: -4.3s; }
+.frond--ur { transform-origin: 0% 100%;   animation-duration: 9.4s;  animation-delay: -2.8s; }
+.frond--ul { transform-origin: 100% 100%; animation-duration: 8.6s;  animation-delay: -6.1s; }
+.frond--dr { transform-origin: 0% 2%;     animation-duration: 7.9s;  animation-delay: -5.6s; }
+.frond--dl { transform-origin: 100% 2%;   animation-duration: 10.2s; animation-delay: -3.4s; }
 
 @keyframes sway  { from { transform: rotate(-1deg); }   to { transform: rotate(1.2deg); } }
 @keyframes frond { from { transform: rotate(-2deg); }   to { transform: rotate(2.2deg); } }
@@ -834,14 +830,6 @@ a { color: var(--teal-deep); }
   .stats { grid-template-columns: repeat(2, 1fr); }
   .split { grid-template-columns: 1fr; }
   .prizes-grid { grid-template-columns: repeat(2, 1fr); }
-  /* Centred copy leaves no clear corner, so the palm stops being an overlay
-     and takes its own place under the buttons instead of crossing the text. */
-  .hero-palm {
-    position: static;
-    width: 132px;
-    margin: 0 auto;
-  }
-
   .hero-content {
     max-width: 42rem;
     margin-inline: auto;
