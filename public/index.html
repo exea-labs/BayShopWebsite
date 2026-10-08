@@ -15,14 +15,6 @@
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/styles.css">
 <script>document.documentElement.classList.add("js");</script>
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.172.0/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.172.0/examples/jsm/"
-  }
-}
-</script>
 </head>
 <body>
 
@@ -52,7 +44,7 @@
 
   <!-- ===== HERO ===== -->
   <section class="hero">
-    <div class="wrap hero-layout">
+    <div class="wrap">
       <div class="hero-content">
         <span class="badge" data-anim="hero">Workshop #1 &middot; Bay Area</span>
         <h1 data-anim="hero">Bay Area Research Workshop</h1>
@@ -74,14 +66,26 @@
             Join Our Discord
           </a>
         </div>
-        <p class="hero-hint" data-anim="hero">Click the eyepiece to look inside</p>
       </div>
 
-      <div class="hero-canvas-wrap">
-        <div id="microscope-canvas"></div>
-        <div class="zoom-overlay" id="zoom-overlay">
-          <p class="zoom-text">Come to learn research</p>
-        </div>
+      <!-- Trunk base is the local origin, so the sway rotates about the point
+           where the trunk meets the ground. Fronds lag the trunk on unrelated
+           periods so the crown never pulses in unison. -->
+      <div class="hero-palm" aria-hidden="true">
+        <svg viewBox="-118 -210 200 218" focusable="false">
+          <g class="palm-body">
+            <path d="M0 0C-3-38-8-76-18-112" fill="none" stroke="#075E58" stroke-width="9" stroke-linecap="round"/>
+            <g transform="translate(-18 -112)">
+              <circle cx="5" cy="7" r="5" fill="#0A6E68"/>
+              <circle cx="-7" cy="10" r="4.5" fill="#0A6E68"/>
+              <path class="frond frond--r"  d="M0 0C24-24 62-30 92-13 62-19 28-9 2 9Z" fill="#075E58"/>
+              <path class="frond frond--l"  d="M0 0C-24-26-62-32-92-15-62-21-28-11-2 9Z" fill="#075E58"/>
+              <path class="frond frond--u"  d="M0 0C15-36 9-70-15-90-2-64-4-30-4-2Z" fill="#0A6E68"/>
+              <path class="frond frond--dr" d="M0 0C36-7 68 13 79 41 60 17 28 6 2 6Z" fill="#0A6E68"/>
+              <path class="frond frond--dl" d="M0 0C-36-9-70 11-81 39-62 15-28 4-2 6Z" fill="#075E58"/>
+            </g>
+          </g>
+        </svg>
       </div>
     </div>
   </section>
@@ -290,6 +294,5 @@
 <script src="/assets/vendor/gsap.min.js" defer></script>
 <script src="/assets/vendor/ScrollTrigger.min.js" defer></script>
 <script src="/assets/app.js" defer></script>
-<script type="module" src="/assets/microscope.js"></script>
 </body>
 </html>
