@@ -1,6 +1,6 @@
 # Exea Labs — Bay Area Workshop site
 
-Three-page static site for Exea Workshop #1 (Sunday, December 6, 2026, SF Bay Area).
+Three-page static site for Exea Workshop #1 (Sunday, January 3, 2027, SF Bay Area).
 No build step, no package install, no external requests — plain HTML, one stylesheet,
 one script, and a vendored copy of GSAP.
 
@@ -89,7 +89,7 @@ Hardcoded in the HTML. Search-and-replace across `public/*.html`:
 
 | Fact | Current value | Where |
 | --- | --- | --- |
-| Date | Sunday, December 6, 2026 | all pages + footers |
+| Date | Sunday, January 3, 2027 | all pages + footers, and baked into `public/assets/img/og.png` (Georgia Bold 62 / Open Sans 29) — bump the `?v=` on each `og:image` after redrawing it so scrapers refetch |
 | Time | 12:30 - 5:30 PM | home key-info, signup card |
 | Venue | "SF Bay Area" / "sent to registrants" | home key-info, signup card, signup logistics |
 | Capacity | About 50 students | home key-info, home closing, signup card |
