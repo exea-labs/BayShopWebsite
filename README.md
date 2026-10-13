@@ -90,7 +90,7 @@ Hardcoded in the HTML. Search-and-replace across `public/*.html`:
 | Fact | Current value | Where |
 | --- | --- | --- |
 | Date | Sunday, January 3, 2027 | all pages + footers, and baked into `public/assets/img/og.png` (Georgia Bold 62 / Open Sans 29) — bump the `?v=` on each `og:image` after redrawing it so scrapers refetch |
-| Time | 12:30 - 5:30 PM | home key-info, signup card |
+| Time | 10:00 - 5:45 PM | home key-info, signup card |
 | Venue | "SF Bay Area" / "sent to registrants" | home key-info, signup card, signup logistics |
 | Capacity | About 50 students | home key-info, home closing, signup card |
 | Luma link | `https://luma.com/g9xq2f52` | every page |
