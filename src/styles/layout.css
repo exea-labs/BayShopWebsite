@@ -1,0 +1,157 @@
+/* Grid (DESIGN.md §5.1): 12 × 90 / 24 / 48 at 1440, 4 × 80 / 10 / 20 at 390. */
+.wrap {
+  width: 100%;
+  max-width: 1920px;
+  margin-inline: auto;
+  padding-inline: var(--margin);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  column-gap: var(--gutter);
+}
+
+.section {
+  padding-top: var(--space-section);
+}
+
+/* ---------- Type roles ---------- */
+
+.display-1 {
+  font-family: var(--serif);
+  font-weight: 340;
+  font-size: var(--fs-display-1);
+  line-height: 0.88;
+  letter-spacing: -0.035em;
+}
+
+.h2 {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: var(--fs-display-2);
+  line-height: 0.94;
+  letter-spacing: -0.03em;
+}
+
+.statement {
+  font-weight: 350;
+  font-size: var(--fs-statement);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  max-width: 28ch;
+}
+
+.lede {
+  font-weight: 400;
+  font-size: var(--fs-lede);
+  line-height: 1.38;
+  letter-spacing: -0.003em;
+  max-width: 40ch;
+}
+
+.title {
+  font-weight: 500;
+  font-size: var(--fs-title);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.note {
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  color: var(--ink-2);
+  max-width: 62ch;
+}
+
+.label {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: var(--fs-label);
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  color: var(--ink-3);
+}
+
+.label--caps {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+@media (min-width: 768px) {
+  .display-1 { font-weight: 300; }
+}
+
+/* ---------- Graduated rule (DESIGN.md §5.3) ----------
+   A 1px hairline across the content width, a 6px tick on every column's left
+   edge and one on the right edge. The § index sits above it. Decorative. */
+.grad {
+  position: relative;
+  display: block;
+}
+
+.grad__index {
+  display: block;
+  margin-bottom: 12px;
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: var(--fs-label);
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  color: var(--ink-3);
+}
+
+.grad__line {
+  display: block;
+  height: 1px;
+  background: var(--rule);
+  transform-origin: 0 50%;
+}
+
+.grad__ticks {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  column-gap: var(--gutter);
+  height: 6px;
+}
+
+.grad__ticks i,
+.grad__ticks::after {
+  display: block;
+  width: 1px;
+  height: 6px;
+  background: var(--rule-2);
+}
+
+.grad__ticks::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.grad__ticks i:nth-child(n + 5) { display: none; }
+
+@media (min-width: 768px) {
+  .grad__ticks i:nth-child(n + 5) { display: block; }
+  .grad__ticks i:nth-child(n + 9) { display: none; }
+}
+
+@media (min-width: 1100px) {
+  .grad__ticks i:nth-child(n + 9) { display: block; }
+}
+
+[data-theme="dusk"] .grad__line,
+[data-theme="dusk"] .grad__ticks i,
+[data-theme="dusk"] .grad__ticks::after {
+  background: var(--rule-dusk);
+}
+
+/* Section heads: rule + index, then 48px (24 on mobile), then the H2. */
+.grad + .grid > .h2:first-child,
+.grad + .h2,
+.section-head {
+  margin-top: var(--space-head);
+}

@@ -1,0 +1,192 @@
+/* ==========================================================================
+   Motion (DESIGN.md §8). Hidden start states exist only under .motion, which
+   the head script sets when motion is allowed and removes after 2.5 s if the
+   app never marks the page ready. Without JS, or with reduced motion, every
+   element is visible at rest.
+   ========================================================================== */
+
+/* Fade-up: paragraphs, list items, captions. Hero pieces use 12px and a
+   shorter 700ms: Chrome counts a faded-in LCP candidate only once its opacity
+   transition ends, so the load sequence stays inside the LCP budget. */
+.motion [data-reveal="up"] {
+  transition:
+    opacity 900ms var(--ease-settle) var(--d, 0ms),
+    transform 900ms var(--ease-settle) var(--d, 0ms);
+}
+
+.motion [data-hero="fade"] {
+  transition:
+    opacity 700ms var(--ease-settle) var(--d, 0ms),
+    transform 700ms var(--ease-settle) var(--d, 0ms);
+}
+
+.motion [data-reveal="up"]:not(.is-in) {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.motion [data-hero="fade"]:not(.is-in) {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+/* Lists reveal item by item, 60ms apart. */
+.motion [data-reveal="stagger"] > * {
+  transition:
+    opacity 900ms var(--ease-settle) calc(var(--i, 0) * 60ms),
+    transform 900ms var(--ease-settle) calc(var(--i, 0) * 60ms);
+}
+
+.motion [data-reveal="stagger"]:not(.is-in) > * {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+/* Plates open from the bottom edge; the image settles from 1.04. */
+.motion [data-reveal="plate"] {
+  transition: clip-path var(--dur-reveal) var(--ease-settle) var(--d, 0ms);
+}
+
+.motion [data-reveal="plate"]:not(.is-in) {
+  clip-path: inset(100% 0 0 0);
+}
+
+.motion [data-reveal="plate"] > picture,
+.motion [data-reveal="plate"] > img {
+  transition: transform var(--dur-reveal) var(--ease-settle) var(--d, 0ms);
+}
+
+.motion [data-reveal="plate"]:not(.is-in) > picture,
+.motion [data-reveal="plate"]:not(.is-in) > img {
+  transform: scale(1.04);
+}
+
+/* Line masks are built by SplitText once fonts are ready; until then the
+   heading is held back (at most 600ms on load). */
+.motion [data-reveal="lines"]:not(.is-split),
+.motion [data-hero="lines"]:not(.is-split) {
+  visibility: hidden;
+}
+
+.line-mask {
+  padding-block: 0.1em 0.2em;
+  margin-block: -0.1em -0.2em;
+}
+
+/* Hero figure fades in with the H1 (it is the LCP image, so 700ms). */
+.motion .hero__view .view__frame {
+  transition: opacity 700ms var(--ease-drift);
+}
+
+.motion .hero__view:not(.is-in) .view__frame {
+  opacity: 0;
+}
+
+/* Graduated rule: the line draws from the left, then the ticks arrive. */
+.motion .grad[data-reveal] .grad__line {
+  transform: scaleX(0);
+  transition: transform 1200ms var(--ease-settle);
+}
+
+.motion .grad[data-reveal] .grad__index {
+  opacity: 0;
+  transition: opacity 900ms var(--ease-settle) 200ms;
+}
+
+.motion .grad[data-reveal] .grad__ticks i,
+.motion .grad[data-reveal] .grad__ticks::after {
+  opacity: 0;
+  transition: opacity 400ms var(--ease-settle) calc(500ms + var(--i, 12) * 20ms);
+}
+
+.motion .grad.is-in .grad__line {
+  transform: none;
+}
+
+.motion .grad.is-in .grad__index,
+.motion .grad.is-in .grad__ticks i,
+.motion .grad.is-in .grad__ticks::after {
+  opacity: 1;
+}
+
+/* Mobile menu links arrive after the sheet. */
+@media (max-width: 767.98px) {
+  .motion .nav.is-open a {
+    animation: menu-in 700ms var(--ease-settle) both;
+    animation-delay: calc(180ms + var(--i, 0) * 50ms);
+  }
+
+  .motion .nav.is-open a:nth-child(2) { --i: 1; }
+  .motion .nav.is-open a:nth-child(3) { --i: 2; }
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+/* ---------- The palm: the brand's one idle motion (CONTENT.md §9.2) ----------
+   The trunk base is the local origin, so rotating about the bbox bottom pivots
+   where the trunk meets the line. Fronds lag on unrelated periods. */
+.motion .palm-body {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: palm-sway 11s var(--ease-drift) infinite alternate;
+}
+
+.motion .frond {
+  transform-box: fill-box;
+  animation: palm-frond 7.3s var(--ease-drift) infinite alternate;
+}
+
+.motion .frond--r { transform-origin: 0% 100%; animation-duration: 6.7s; animation-delay: -1.9s; }
+.motion .frond--l { transform-origin: 100% 100%; animation-duration: 8.1s; animation-delay: -4.3s; }
+.motion .frond--ur { transform-origin: 0% 100%; animation-duration: 9.4s; animation-delay: -2.8s; }
+.motion .frond--ul { transform-origin: 100% 100%; animation-duration: 8.6s; animation-delay: -6.1s; }
+.motion .frond--dr { transform-origin: 0% 2%; animation-duration: 7.9s; animation-delay: -5.6s; }
+.motion .frond--dl { transform-origin: 100% 2%; animation-duration: 10.2s; animation-delay: -3.4s; }
+
+@keyframes palm-sway {
+  from { transform: rotate(-1deg); }
+  to { transform: rotate(1.2deg); }
+}
+
+@keyframes palm-frond {
+  from { transform: rotate(-2deg); }
+  to { transform: rotate(2.2deg); }
+}
+
+/* ---------- Page navigation: cross-document View Transitions ---------- */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 360ms;
+  animation-timing-function: var(--ease-drift);
+}
+
+::view-transition-group(site-header) {
+  animation-duration: 360ms;
+  animation-timing-function: var(--ease-drift);
+}
+
+/* ---------- Reduced motion (DESIGN.md §8.7) ---------- */
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+    transition-delay: 0ms !important;
+    animation-duration: 0ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <filter id="exeaGlow" x="-55%" y="-55%" width="210%" height="210%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.4" result="blur" />
+      <feColorMatrix
+        in="blur"
+        type="matrix"
+        values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.55 0"
+        result="soft"
+      />
+      <feMerge>
+        <feMergeNode in="soft" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  <!-- Transparent background; white /E/ with soft bloom -->
+  <text
+    x="32"
+    y="41"
+    text-anchor="middle"
+    font-family="system-ui, -apple-system, 'Segoe UI', sans-serif"
+    font-weight="900"
+    font-size="26"
+    fill="#ffffff"
+    filter="url(#exeaGlow)"
+  >
+    /E/
+  </text>
+</svg>

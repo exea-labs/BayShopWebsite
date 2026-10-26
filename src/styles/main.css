@@ -1,0 +1,10 @@
+@import "lenis/dist/lenis.css";
+@import "./tokens.css";
+@import "./fonts.css";
+@import "./base.css";
+@import "./layout.css";
+@import "./components.css";
+@import "./home.css";
+@import "./about.css";
+@import "./signup.css";
+@import "./motion.css";

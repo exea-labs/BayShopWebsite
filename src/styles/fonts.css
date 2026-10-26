@@ -1,0 +1,46 @@
+/* Self-hosted Latin variable fonts, copied from Fontsource by scripts/copy-fonts.mjs.
+   Source Serif 4 carries wght 200–900 and opsz 8–60; font-optical-sizing stays auto. */
+@font-face {
+  font-family: "Source Serif 4";
+  src: url("/fonts/source-serif-4-latin-opsz-normal.woff2") format("woff2");
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/geist-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/fonts/geist-mono-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Metric-matched fallbacks so the swap does not shift layout. Values from
+   @capsizecss/unpack on the shipped files against capsize's Georgia and Arial
+   metrics: size-adjust = xWidthAvg ratio, overrides = font metric / size-adjust. */
+@font-face {
+  font-family: "SS4 Fallback";
+  src: local("Georgia");
+  size-adjust: 100.9419%;
+  ascent-override: 102.6332%;
+  descent-override: 33.1874%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Geist Fallback";
+  src: local("Arial"), local("Helvetica Neue"), local("Helvetica");
+  size-adjust: 104.7553%;
+  ascent-override: 95.9379%;
+  descent-override: 28.1609%;
+  line-gap-override: 0%;
+}

@@ -1,0 +1,970 @@
+/* ==========================================================================
+   Home (DESIGN.md §7.1)
+   ========================================================================== */
+
+/* ---------- 3D figure placeholders (hero and The Five Hours) ---------- */
+.view {
+  position: relative;
+}
+
+.view__frame {
+  position: absolute;
+  inset: 0;
+}
+
+.view__frame picture,
+.view__poster,
+.view__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.view__poster {
+  object-fit: contain;
+  transition: opacity 600ms var(--ease-drift);
+}
+
+.view__canvas {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 600ms var(--ease-drift);
+}
+
+.view.is-live .view__canvas {
+  opacity: 1;
+}
+
+.view.is-live .view__poster {
+  opacity: 0;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  padding: 32px 0 32px;
+}
+
+.hero__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: start;
+}
+
+.hero__badge {
+  grid-column: 1 / -1;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  justify-self: start;
+  margin-bottom: 20px;
+}
+
+.hero__badge::before {
+  content: "";
+  flex: none;
+  width: 6px;
+  height: 6px;
+  background: var(--teal);
+}
+
+.hero__title {
+  grid-column: 1 / -1;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-palm {
+  display: inline-block;
+  height: 0.72em;
+  width: auto;
+  margin-left: 0.12em;
+  vertical-align: baseline;
+  overflow: visible;
+}
+
+.hero__lede {
+  grid-column: 1 / -1;
+  margin-top: var(--space-after-display);
+}
+
+.hero__actions {
+  grid-column: 1 / -1;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 32px;
+}
+
+.hero__actions .btn {
+  width: 100%;
+}
+
+.hero__view {
+  grid-column: 1 / -1;
+  margin: 24px calc(var(--margin) * -1) 0;
+  aspect-ratio: 390 / 300;
+}
+
+/* The dial's calibration plate: one quiet caption line (two on phones), the
+   items parted by hairlines. Each hairline sits in the gap before its item,
+   and the list clips the one that would lead a wrapped line. */
+.hero__meta {
+  --meta-gap: 25px;
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--meta-gap);
+  row-gap: 8px;
+  overflow: hidden;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: var(--fs-label);
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  color: var(--ink-2);
+}
+
+.hero__meta li {
+  position: relative;
+}
+
+.hero__meta li::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--meta-gap) / -2 - 0.5px);
+  width: 1px;
+  background: var(--rule);
+}
+
+.hero__free {
+  color: var(--teal-deep);
+}
+
+@media (min-width: 768px) {
+  .hero {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100svh - var(--header-h));
+  }
+
+  .hero__grid {
+    flex: 1 0 auto;
+    grid-template-rows: auto auto auto auto minmax(0, 1fr) auto;
+  }
+
+  .hero__badge { grid-area: 1 / 1 / 2 / 7; }
+  .hero__title { grid-area: 2 / 1 / 3 / -1; }
+  .hero__lede { grid-area: 3 / 1 / 4 / 5; }
+
+  .hero__actions {
+    grid-area: 4 / 1 / 5 / 5;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .hero__actions .btn {
+    width: auto;
+  }
+
+  .hero__view {
+    grid-area: 3 / 5 / 6 / -1;
+    align-self: stretch;
+    margin: var(--space-stack) calc(var(--margin) * -1) 0 0;
+    aspect-ratio: auto;
+    min-height: 360px;
+  }
+
+  .hero__meta {
+    --meta-gap: 33px;
+    grid-area: 6 / 5 / 7 / -1;
+    margin-top: 16px;
+  }
+}
+
+/* Portrait tablets: stack the figure under the buttons, full bleed, at the
+   desktop poster's 16:10 so the poster and the live frame still agree. */
+@media (min-width: 768px) and (max-width: 1099.98px) and (orientation: portrait) {
+  .hero__lede { grid-area: 3 / 1 / 4 / 7; }
+  .hero__actions { grid-area: 4 / 1 / 5 / -1; }
+
+  .hero__view {
+    grid-area: 5 / 1 / 6 / -1;
+    align-self: start;
+    margin: 40px calc(var(--margin) * -1) 0;
+    aspect-ratio: 16 / 10;
+    min-height: 0;
+  }
+
+  .hero__meta { grid-area: 6 / 1 / 7 / -1; }
+}
+
+@media (min-width: 1100px) {
+  .hero__actions { grid-area: 4 / 1 / 5 / 6; }
+
+  /* The view starts at the top of H1 line 2 and runs to the right edge. */
+  .hero__view {
+    grid-area: 3 / 6 / 6 / -1;
+    margin-top: calc(var(--fs-display-1) * -0.88);
+  }
+
+  .hero__meta { grid-area: 6 / 6 / 7 / -1; }
+}
+
+/* ---------- Key details ---------- */
+.details {
+  padding-top: var(--space-block);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  column-gap: var(--gutter);
+}
+
+.facts__item {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: baseline;
+  padding: 16px 0 18px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.facts dt {
+  grid-column: 1 / 2;
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: var(--fs-label);
+  line-height: 1.3;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.facts dd {
+  grid-column: 2 / -1;
+  font-weight: 380;
+  font-size: var(--fs-fact);
+  line-height: 1.1;
+  letter-spacing: -0.012em;
+  font-variant-numeric: tabular-nums;
+}
+
+.facts small {
+  display: block;
+  margin-top: 8px;
+  text-wrap: balance;
+  font-weight: 400;
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  letter-spacing: 0;
+  color: var(--ink-2);
+}
+
+@media (min-width: 768px) {
+  .facts__item {
+    position: relative;
+    display: block;
+    padding: 32px 0 40px;
+  }
+
+  .facts__item:nth-child(odd) { grid-column: 1 / 5; }
+  .facts__item:nth-child(even) { grid-column: 5 / 9; }
+  .facts__item:nth-child(n + 3) { border-bottom: 0; }
+
+  .facts__item:nth-child(even)::before {
+    content: "";
+    position: absolute;
+    top: 32px;
+    bottom: 40px;
+    left: calc(var(--gutter) / -2);
+    width: 1px;
+    background: var(--rule);
+  }
+
+  .facts dt {
+    margin-bottom: 14px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .facts__item {
+    border-bottom: 0;
+  }
+
+  .facts__item:nth-child(1) { grid-column: 1 / 5; }
+  .facts__item:nth-child(2) { grid-column: 5 / 8; }
+  .facts__item:nth-child(3) { grid-column: 8 / 12; }
+  .facts__item:nth-child(4) { grid-column: 12 / 13; }
+
+  .facts__item + .facts__item::before {
+    content: "";
+    position: absolute;
+    top: 32px;
+    bottom: 40px;
+    left: calc(var(--gutter) / -2);
+    width: 1px;
+    background: var(--rule);
+  }
+}
+
+/* ---------- Who Should Come (§ 01) ---------- */
+.who__title {
+  grid-column: 1 / -1;
+  margin-top: var(--space-head);
+}
+
+.who__intro {
+  grid-column: 1 / -1;
+  margin-top: var(--space-stack);
+}
+
+.who__list {
+  grid-column: 1 / -1;
+  margin-top: var(--space-block);
+}
+
+@media (min-width: 768px) {
+  .who__intro { grid-column: 3 / -1; }
+
+  .who__list {
+    grid-column: 3 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--gutter);
+  }
+}
+
+@media (min-width: 1100px) {
+  .who__title { grid-column: 1 / 9; }
+  .who__intro { grid-column: 5 / 13; }
+  .who__list { grid-column: 5 / 13; }
+}
+
+/* ---------- The Five Hours (§ 02) ---------- */
+.hours {
+  --sc: 4; /* columns spanned by the schedule */
+  --ppm: 0.7svh; /* scroll distance per minute of the afternoon */
+  --reading: 72svh;
+  --hold: 0px; /* scroll after 5:30 during which the last session and the dial stay put */
+}
+
+.hours__grid {
+  align-items: start;
+}
+
+.hours__head {
+  grid-column: 1 / -1;
+}
+
+.hours__head .h2 {
+  margin-top: var(--space-head);
+}
+
+.hours__intro {
+  margin-top: var(--space-stack);
+}
+
+.hours__view {
+  grid-column: 1 / -1;
+  margin: var(--space-block) calc(var(--margin) * -1) 0;
+  aspect-ratio: 1;
+  background: var(--ground, var(--paper));
+}
+
+.schedule {
+  position: relative;
+  grid-column: 1 / -1;
+  margin-top: var(--space-block);
+}
+
+.schedule__list {
+  position: relative;
+}
+
+/* The time axis */
+.schedule__list::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  background: var(--rule);
+}
+
+.session {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 40px calc((100% - (var(--sc) - 1) * var(--gutter)) / var(--sc) + var(--gutter));
+  color: var(--ink-2);
+}
+
+.session__body {
+  display: flex;
+  flex-direction: column;
+}
+
+.session__time {
+  display: block;
+  margin-top: -0.13em;
+  font-weight: 300;
+  font-size: var(--fs-numeral);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  transition: color 240ms var(--ease-drift);
+}
+
+.session__title {
+  margin-top: 16px;
+  font-weight: 500;
+  font-size: var(--fs-title);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.session__desc {
+  margin-top: 8px;
+  max-width: 36ch;
+  font-size: var(--fs-body);
+  line-height: 1.5;
+}
+
+.session.is-active {
+  color: var(--ink);
+}
+
+.session__ticks {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 16px;
+  pointer-events: none;
+}
+
+.session__ticks::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 1px;
+  background: var(--rule-2);
+  transition: background-color 240ms var(--ease-drift);
+}
+
+.session.is-active .session__ticks::before {
+  background: var(--teal);
+  height: 2px;
+}
+
+.session__ticks i {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: calc(var(--t) * 100%);
+  width: 6px;
+  height: 1px;
+  background: var(--rule-2);
+}
+
+/* The reading pointer rides the axis at the reading line. */
+.schedule__pointer {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .hours {
+    --sc: 4;
+  }
+
+  .hours__head { grid-column: 5 / 9; grid-row: 1; }
+
+  .hours__view {
+    grid-column: 1 / 5;
+    grid-row: 1 / span 2;
+    margin: 0;
+  }
+
+  .schedule {
+    grid-column: 5 / 9;
+    grid-row: 2;
+  }
+}
+
+@media (min-width: 1100px) {
+  .hours {
+    --sc: 6;
+    --ppm: 0.9svh;
+    --reading: 50svh;
+  }
+
+  .hours__head { grid-column: 7 / 13; }
+  .hours__view { grid-column: 1 / 7; }
+  .schedule { grid-column: 7 / 13; }
+}
+
+/* Proportional time and the sticky instrument exist only with motion on
+   (DESIGN.md §7.1: reduced motion and no-JS get natural heights and the plate). */
+.motion .hours {
+  --hold: 30svh;
+}
+
+@media (min-width: 768px) {
+  /* 5:30 lands as the last slot's end crosses the reading line; the figure and
+     the last session then stay for a further tenth of a screen. */
+  .motion .hours {
+    --hold: calc(100svh - var(--reading) + 10svh);
+  }
+}
+
+.motion .session {
+  min-height: calc(var(--min) * var(--ppm));
+}
+
+/* Each session's text holds at the reading line for the length of its slot,
+   then the next one pushes it on, so the column always shows the hour the
+   shadow is in. The last slot carries the hold, so "Pitches & Awards" stays
+   through sunset and blue hour. */
+.motion .session__body {
+  position: sticky;
+  top: var(--reading);
+}
+
+.motion .session:last-child {
+  min-height: calc(var(--min) * var(--ppm) + var(--hold));
+  padding-bottom: 0;
+}
+
+.motion .session:last-child .session__ticks {
+  bottom: var(--hold);
+}
+
+.motion .session__ticks i {
+  display: block;
+}
+
+.motion .schedule__pointer {
+  position: sticky;
+  top: var(--reading);
+  z-index: 2;
+  display: block;
+  height: 0;
+}
+
+.motion .schedule__pointer::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -10px;
+  width: 10px;
+  height: 10px;
+  background: var(--teal);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+.motion .hours__view {
+  position: sticky;
+  top: var(--header-h);
+  z-index: 3;
+  height: 46svh;
+  aspect-ratio: auto;
+}
+
+@media (min-width: 768px) {
+  .motion .hours__view {
+    top: calc(var(--header-h) + 24px);
+    height: calc(100svh - var(--header-h) - 48px);
+  }
+}
+
+/* Inactive times step back; they are large text, so ink-3 (5.3:1) is ample. */
+.motion .session:not(.is-active) .session__time {
+  color: var(--ink-3);
+}
+
+/* The day's end closes the axis at 5:30 with the same tick as a session start;
+   the hold below it has no axis. */
+.motion .schedule__list::before {
+  bottom: var(--hold);
+}
+
+.motion .schedule__list::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: var(--hold);
+  width: 16px;
+  height: 1px;
+  background: var(--rule-2);
+}
+
+/* At 5:30 the day is over and the reading pointer bows out. */
+.motion .schedule__pointer::before {
+  transition: opacity 240ms var(--ease-drift);
+}
+
+.motion .schedule.is-end .schedule__pointer::before {
+  opacity: 0;
+}
+
+/* Phones: list text sliding under the pinned figure fades instead of being cut. */
+@media (max-width: 767.98px) {
+  .motion .hours__view::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    height: 48px;
+    background: linear-gradient(var(--ground, var(--paper)), transparent);
+    pointer-events: none;
+  }
+}
+
+/* ---------- Prizes (§ 03) ---------- */
+.prizes__title {
+  grid-column: 1 / -1;
+  margin-top: var(--space-head);
+}
+
+.prizes__intro {
+  grid-column: 1 / -1;
+  margin-top: var(--space-stack);
+}
+
+/* The list is ranked, so the layout is too: 1st Place is a catalogue spread
+   (a wide plate with its name set large beside it); 2nd, 3rd and Honorable
+   Mention follow as equal plates. Phones and tablets set those three as rows,
+   a small plate beside its text. */
+.prizes__list {
+  margin-top: var(--space-block);
+  row-gap: 56px;
+}
+
+.prize {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  grid-template-rows: auto auto auto 1fr;
+  column-gap: var(--gutter);
+  align-items: start;
+}
+
+.prize__place {
+  grid-column: 1 / -1;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: var(--fs-label);
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  color: var(--ink-3);
+}
+
+.prize__plate {
+  grid-column: 1 / 3;
+  grid-row: 2 / span 3;
+  margin-top: 12px;
+  aspect-ratio: 4 / 3;
+}
+
+/* The white product grounds multiply into the plate. The blend sits on the
+   picture, not the img: the reveal transforms the picture, which would
+   otherwise isolate the img and show its white ground until the reveal ends. */
+.prize__plate picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: multiply;
+}
+
+.prize__plate img {
+  object-fit: contain;
+  transform: scale(var(--s, 1));
+}
+
+/* Wide objects fill wide plates: the drone and keyboard sit in the middle
+   third of square files, so they are cropped to the plate, never cut. */
+.prize__plate--drone { --s: 0.8; }
+.prize__plate--drone img { object-fit: cover; }
+.prize__plate--airpods { --s: 0.92; }
+.prize__plate--keyboard { --s: 0.9; }
+.prize__plate--keyboard img { object-fit: cover; }
+
+.prize__plate--speaker {
+  --s: 0.94;
+}
+
+.prize__plate--speaker img {
+  object-position: 50% 100%;
+  transform-origin: 50% 100%;
+}
+
+.prize__name {
+  grid-column: 3 / -1;
+  grid-row: 2;
+  margin-top: 12px;
+  font-weight: 500;
+  font-size: var(--fs-title);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.prize__desc {
+  grid-column: 3 / -1;
+  grid-row: 3;
+  margin-top: 8px;
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+
+/* 1st Place: the plate across the column, the name set large below it. */
+.prize:first-child .prize__plate {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  aspect-ratio: 16 / 10;
+}
+
+.prize:first-child .prize__name {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  margin-top: 20px;
+  font-weight: 350;
+  font-size: var(--fs-statement);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+}
+
+.prize:first-child .prize__desc {
+  grid-column: 1 / -1;
+  grid-row: 4;
+  max-width: 36ch;
+}
+
+@media (min-width: 768px) {
+  .prize__desc { font-size: var(--fs-body); line-height: 1.5; }
+
+  .prize__plate { grid-column: 1 / 4; }
+  .prize__name,
+  .prize__desc { grid-column: 4 / 8; }
+
+  .prize:first-child { grid-template-rows: auto 1fr auto; align-items: end; }
+  .prize:first-child .prize__plate { grid-column: 1 / 6; grid-row: 2 / 4; }
+  .prize:first-child .prize__name { grid-column: 6 / -1; grid-row: 2; margin-top: 0; }
+  .prize:first-child .prize__desc { grid-column: 6 / -1; grid-row: 3; }
+}
+
+@media (min-width: 1100px) {
+  .prizes__head { align-items: start; }
+  .prizes__title { grid-column: 1 / 5; }
+
+  /* Top-aligned with the H2's cap height (SS4 cap top sits 0.1505em into a
+     0.94 line box, and 0.2405em into a 1.12 line box). */
+  .prizes__intro {
+    grid-column: 6 / 13;
+    margin-top: calc(var(--space-head) + var(--fs-display-2) * 0.1505 - var(--fs-statement) * 0.2405);
+  }
+
+  .prizes__list { row-gap: 80px; }
+
+  /* 1st: the plate on c1–c6, name and description on c8–c11, on its baseline */
+  .prize:first-child .prize__plate { grid-column: 1 / 7; }
+  .prize:first-child .prize__name,
+  .prize:first-child .prize__desc { grid-column: 8 / 12; }
+
+  /* 2nd, 3rd, Honorable Mention: four columns each, plate above caption */
+  .prize:not(:first-child) {
+    grid-column: span 4;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .prize:not(:first-child) .prize__name { margin-top: 20px; }
+}
+
+/* ---------- How Judging Works (§ 04) ---------- */
+.judging {
+  padding-bottom: var(--space-section);
+}
+
+.judging__title {
+  grid-column: 1 / -1;
+  margin-top: var(--space-head);
+}
+
+.judging__intro {
+  grid-column: 1 / -1;
+  margin-top: var(--space-stack);
+}
+
+.judging__panel {
+  grid-column: 1 / -1;
+  margin-top: var(--space-block);
+}
+
+.judging__panel p {
+  margin-top: 16px;
+  max-width: 34ch;
+  color: var(--ink-2);
+}
+
+.judging__criteria {
+  grid-column: 1 / -1;
+  margin-top: 56px;
+}
+
+.criteria {
+  margin-top: 20px;
+  counter-reset: crit;
+  border-bottom: 1px solid var(--rule);
+}
+
+.criteria li {
+  position: relative;
+  counter-increment: crit;
+  padding: 20px 0 22px 48px;
+  border-top: 1px solid var(--rule);
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.criteria li::before {
+  content: counter(crit, decimal-leading-zero);
+  content: counter(crit, decimal-leading-zero) / "";
+  position: absolute;
+  top: 26px;
+  left: 0;
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: var(--fs-label);
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  color: var(--ink-3);
+}
+
+.criteria b {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+  font-size: var(--fs-title);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+@media (min-width: 768px) {
+  .criteria li {
+    display: grid;
+    grid-template-columns: 1fr 3fr 3fr;
+    column-gap: var(--gutter);
+    align-items: baseline;
+    padding: 24px 0;
+  }
+
+  .criteria li::before {
+    position: static;
+  }
+
+  .criteria b {
+    margin: 0;
+  }
+}
+
+@media (min-width: 1100px) {
+  .judging__title { grid-column: 1 / 9; }
+  .judging__intro { grid-column: 1 / 8; }
+
+  .judging__panel {
+    grid-column: 1 / 5;
+    grid-row: 3;
+  }
+
+  .judging__criteria {
+    grid-column: 6 / 13;
+    grid-row: 3;
+    margin-top: var(--space-block);
+  }
+}
+
+/* ---------- Closing CTA (dusk) ---------- */
+.cta {
+  position: relative;
+  isolation: isolate;
+  padding: var(--space-section) 0;
+  color: var(--on-dusk);
+}
+
+/* The dusk ground. Its top edge can rise as a shallow arc (the Earth's shadow,
+   DESIGN.md §8.4); JS sets --arc while the section enters, otherwise straight. */
+.cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, var(--dusk) 0%, var(--dusk) 35%, var(--dusk-2) 100%);
+  clip-path: var(--arc, none);
+}
+
+.cta__grid {
+  row-gap: 40px;
+  align-items: end;
+}
+
+.cta__title {
+  grid-column: 1 / -1;
+}
+
+.cta__side {
+  grid-column: 1 / -1;
+}
+
+.cta__text {
+  color: var(--on-dusk-2);
+}
+
+.cta__actions {
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 32px;
+}
+
+.cta__actions .btn {
+  width: 100%;
+  height: 56px; /* stacked full width, equal heights read as one set */
+}
+
+@media (min-width: 768px) {
+  .cta__actions {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cta__actions .btn {
+    width: auto;
+  }
+
+  .cta__actions .btn--md {
+    height: 48px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .cta__title { grid-column: 1 / 9; }
+  .cta__side { grid-column: 9 / 13; }
+}

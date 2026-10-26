@@ -1,0 +1,29 @@
+{
+  "name": "exea-labs-bay-area-workshop",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Exea Labs Bay Area Workshop: multi-page static site (Vite, three.js, GSAP, Lenis)",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4500 --strictPort",
+    "fonts": "node scripts/copy-fonts.mjs",
+    "images": "python3 -I scripts/images.py",
+    "posters": "node scripts/posters.mjs",
+    "check": "node scripts/checks.mjs && node scripts/content-check.mjs",
+    "shots": "node scripts/shots.mjs"
+  },
+  "dependencies": {
+    "gsap": "3.15.0",
+    "lenis": "1.3.27",
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "@fontsource-variable/geist": "5.3.0",
+    "@fontsource-variable/geist-mono": "5.3.0",
+    "@fontsource-variable/source-serif-4": "5.3.1",
+    "playwright-core": "1.64.1",
+    "vite": "6.4.5"
+  }
+}
