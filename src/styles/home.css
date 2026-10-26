@@ -2,7 +2,7 @@
    Home (DESIGN.md §7.1)
    ========================================================================== */
 
-/* ---------- 3D figure placeholders (hero and The Five Hours) ---------- */
+/* ---------- 3D figure placeholders (hero and The Full Day) ---------- */
 .view {
   position: relative;
 }
@@ -348,12 +348,12 @@
   .who__list { grid-column: 5 / 13; }
 }
 
-/* ---------- The Five Hours (§ 02) ---------- */
+/* ---------- The Full Day (§ 02) ---------- */
 .hours {
   --sc: 4; /* columns spanned by the schedule */
-  --ppm: 0.7svh; /* scroll distance per minute of the afternoon */
+  --ppm: 0.7svh; /* scroll distance per minute of the workshop day */
   --reading: 72svh;
-  --hold: 0px; /* scroll after 5:30 during which the last session and the dial stay put */
+  --hold: 0px; /* scroll after 5:45 during which the last session and the dial stay put */
 }
 
 .hours__grid {
@@ -521,7 +521,7 @@
 }
 
 @media (min-width: 768px) {
-  /* 5:30 lands as the last slot's end crosses the reading line; the figure and
+  /* 5:45 lands as the last slot's end crosses the reading line; the figure and
      the last session then stay for a further tenth of a screen. */
   .motion .hours {
     --hold: calc(100svh - var(--reading) + 10svh);
@@ -593,7 +593,7 @@
   color: var(--ink-3);
 }
 
-/* The day's end closes the axis at 5:30 with the same tick as a session start;
+/* The day's end closes the axis at 5:45 with the same tick as a session start;
    the hold below it has no axis. */
 .motion .schedule__list::before {
   bottom: var(--hold);
@@ -609,7 +609,7 @@
   background: var(--rule-2);
 }
 
-/* At 5:30 the day is over and the reading pointer bows out. */
+/* At 5:45 the day is over and the reading pointer bows out. */
 .motion .schedule__pointer::before {
   transition: opacity 240ms var(--ease-drift);
 }
@@ -644,9 +644,8 @@
 }
 
 /* The list is ranked, so the layout is too: 1st Place is a catalogue spread
-   (a wide plate with its name set large beside it); 2nd, 3rd and Honorable
-   Mention follow as equal plates. Phones and tablets set those three as rows,
-   a small plate beside its text. */
+   (a wide plate with its name set large beside it); 2nd and 3rd follow as equal
+   plates. Phones and tablets set those two as rows beside their text. */
 .prizes__list {
   margin-top: var(--space-block);
   row-gap: 56px;
@@ -785,9 +784,9 @@
   .prize:first-child .prize__name,
   .prize:first-child .prize__desc { grid-column: 8 / 12; }
 
-  /* 2nd, 3rd, Honorable Mention: four columns each, plate above caption */
+  /* 2nd and 3rd: six columns each, plate above caption */
   .prize:not(:first-child) {
-    grid-column: span 4;
+    grid-column: span 6;
     display: flex;
     flex-direction: column;
     align-items: stretch;

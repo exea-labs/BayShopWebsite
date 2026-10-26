@@ -7,7 +7,9 @@
 // warnings, failed requests and horizontal overflow. SwiftShader needs DISPLAY
 // unset on this machine.
 import { spawn } from 'node:child_process';
-import { mkdirSync } from 'node:fs';
+import { existsSync, mkdirSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright-core';
 
@@ -20,7 +22,7 @@ const opt = Object.fromEntries(
 );
 const pages = String(opt.pages || '/,/about,/signup,/404').split(',');
 const vps = String(opt.vp || 'd,m').split(',');
-const out = String(opt.out || '/tmp/bs2shots');
+const out = String(opt.out || join(tmpdir(), 'bs2shots'));
 const maxSteps = Number(opt.steps || 40);
 const dpr = opt.dpr ? Number(opt.dpr) : null;
 const PORT = 4518;
@@ -43,8 +45,17 @@ await new Promise((resolve, reject) => {
 const env = { ...process.env };
 delete env.DISPLAY;
 delete env.WAYLAND_DISPLAY;
+const browserCandidates = process.platform === 'win32'
+  ? [
+      'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+      'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+    ]
+  : ['/usr/bin/google-chrome', '/usr/bin/chromium', '/usr/bin/chromium-browser'];
+const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
+  || browserCandidates.find(existsSync);
+if (!executablePath) throw new Error('No Chromium browser found; set PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH.');
 const browser = await chromium.launch({
-  executablePath: '/usr/bin/google-chrome',
+  executablePath,
   env,
   args: ['--no-sandbox', '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'],
 });

@@ -35,18 +35,18 @@ function svhProbe() {
 }
 
 /**
- * The page's paper through the afternoon (minutes after 12:30 → sRGB). Paper
+ * The page's paper through the workshop day (minutes after 10:00 → sRGB). Paper
  * holds until mid-afternoon, warms as the sun drops, goes rosy at sunset
- * (5:03) and settles into a cool blue-hour grey at 5:30. Every step keeps ink-3
+ * (5:03) and settles into a cool blue-hour grey by 5:45. Every step keeps ink-3
  * above 4.5:1, so all text stays AA on it.
  */
 const GROUND = [
   [0, [242, 238, 230]],
-  [150, [242, 238, 230]],
-  [210, [244, 235, 220]],
-  [252, [243, 228, 207]],
-  [273, [236, 224, 214]],
-  [300, [221, 224, 225]],
+  [300, [242, 238, 230]],
+  [360, [244, 235, 220]],
+  [402, [243, 228, 207]],
+  [423, [236, 224, 214]],
+  [465, [221, 224, 225]],
 ];
 
 function groundAt(tau) {
@@ -60,11 +60,10 @@ function groundAt(tau) {
 }
 
 /**
- * The Five Hours: map the reading line to clock time. Within each session the
+ * The full day: map the reading line to clock time. Within each schedule row the
  * time runs linearly from its start to the next start, so the shadow reaches an
- * engraved line exactly as that session's top crosses the reading line. The
- * last slot ends where the hold begins (the --hold below the axis's 5:30 tick).
- * τ is minutes after 12:30, in [0, 300].
+ * engraved milestone as the relevant row crosses the reading line. The last
+ * slot ends where the hold begins (the --hold below the axis's 5:45 tick).
  *
  * With motion on, the page's paper also takes the afternoon light (GROUND) and
  * returns to paper as the section leaves the screen.
@@ -80,6 +79,7 @@ export function scheduleUpdater(store) {
     start: Number(el.dataset.start),
     dur: Number(el.dataset.dur),
   }));
+  const total = Math.max(...items.map((item) => item.start + item.dur));
   const svh = svhProbe();
   const wide = matchMedia('(min-width: 1100px)');
   let active = -1;
@@ -94,7 +94,7 @@ export function scheduleUpdater(store) {
     let index = 0;
     const tops = items.map((it) => it.el.getBoundingClientRect());
     if (reading >= tops[0].top) {
-      tau = 300;
+      tau = total;
       index = items.length - 1;
       for (let i = 0; i < items.length; i++) {
         const top = tops[i].top;
@@ -113,8 +113,8 @@ export function scheduleUpdater(store) {
       items[index].el.classList.add('is-active');
       active = index;
     }
-    if ((tau >= 300) !== ended) {
-      ended = tau >= 300;
+    if ((tau >= total) !== ended) {
+      ended = tau >= total;
       root.classList.toggle('is-end', ended);
     }
 

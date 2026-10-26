@@ -9,10 +9,10 @@ const DEG = Math.PI / 180;
 export const VIEWS = {
   // Hero: east-north-east of the dial, looking west-south-west, half into the
   // sun. The gnomon stands in profile against the stone, every numeral reads
-  // upright along the arc, and the 12:30 shadow lies along "Welcome".
+  // upright along the arc, and the 10:00 shadow lies along "Welcome".
   'hero-d': { fov: 22, az: 68, el: 27, target: [0.05, 0.1, -0.05], aspect: 1600 / 1000, fill: [0.77, 0.77], bias: [0.05, -0.07] },
   'hero-m': { fov: 26, az: 68, el: 31, target: [0.05, 0.1, -0.05], aspect: 780 / 600, fill: [0.8, 0.8], bias: [-0.04, -0.02] },
-  // The Five Hours: from the south-south-west, high, so the fan points up.
+  // The Full Day: from the south-south-west, high, so the fan points up.
   hours: { fov: 16, az: 203, el: 68, target: [0.1, 0.1, -0.1], aspect: 1, fill: [0.8, 0.8], bias: [0, -0.02] },
 };
 

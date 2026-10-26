@@ -1,7 +1,7 @@
 // The dial's image-based light: an outdoor winter sky instead of a studio box.
 // A soft blue zenith, a pale haze at the horizon, a broad aureole around the
 // sun, and a warm ground that bounces the sunlit paper. Baked once into a PMREM
-// with the aureole at the 12:30 sun; each material then turns it about the
+// with the aureole at the 10:00 sun; each material then turns it about the
 // vertical to follow the sun's azimuth (envMapRotation) and tints it with the
 // hour (uSkyTint), so the bronze reflects a sky and the stone is filled by one.
 import { BackSide, Mesh, PMREMGenerator, Scene, ShaderMaterial, SphereGeometry, Vector3 } from 'three';

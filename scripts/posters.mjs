@@ -7,7 +7,9 @@
 //
 // SwiftShader needs DISPLAY unset on this machine (see BUILD_NOTES.md).
 import { spawn, execFileSync } from 'node:child_process';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright-core';
 
@@ -40,7 +42,7 @@ for ext in ("avif", "webp"):
 `;
 
 const PORT = 4517;
-const tmp = '/tmp/bs2posters';
+const tmp = join(tmpdir(), 'bs2posters');
 mkdirSync(tmp, { recursive: true });
 
 const server = spawn(process.execPath, [`${root}node_modules/vite/bin/vite.js`, 'preview', '--port', String(PORT), '--strictPort'], {
@@ -62,8 +64,17 @@ delete env.DISPLAY;
 delete env.WAYLAND_DISPLAY;
 let browser;
 try {
+  const browserCandidates = process.platform === 'win32'
+    ? [
+        'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+        'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+      ]
+    : ['/usr/bin/google-chrome', '/usr/bin/chromium', '/usr/bin/chromium-browser'];
+  const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
+    || browserCandidates.find(existsSync);
+  if (!executablePath) throw new Error('No Chromium browser found; set PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH.');
   browser = await chromium.launch({
-    executablePath: '/usr/bin/google-chrome',
+    executablePath,
     env,
     args: ['--no-sandbox', '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'],
   });
@@ -87,7 +98,8 @@ try {
     }
     await page.close();
     if (!pngOnly) {
-      execFileSync('python3', ['-I', '-c', ENCODE, png, `${root}public/assets/posters/${id}`], { stdio: 'inherit' });
+      const python = process.env.PYTHON || (process.platform === 'win32' ? 'python' : 'python3');
+      execFileSync(python, ['-I', '-c', ENCODE, png, `${root}public/assets/posters/${id}`], { stdio: 'inherit' });
     }
   }
 } finally {

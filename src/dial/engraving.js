@@ -20,14 +20,14 @@ const TITLE_CAP = 0.018;
 const TITLE_RHO = 0.5;
 const CLEAR = 0.016; // clearance between a cut line and the type set on it
 
-const NUMERALS = { 750: '12:30', 780: '1:00', 825: '1:45', 870: '2:30', 915: '3:15', 960: '4:00', 1050: '5:30' };
+const NUMERALS = { 600: '10:00', 625: '10:25', 670: '11:10', 780: '1:00', 870: '2:30', 985: '4:25', 1065: '5:45' };
 const TITLES = {
-  750: 'Welcome',
-  780: 'Choosing a Topic',
-  825: 'Designing the Study',
-  870: 'Getting Published',
-  915: 'Tools of the Trade',
-  960: 'Pitches & Awards',
+  600: 'Welcome',
+  625: 'Topic Ideation',
+  670: 'Research Question',
+  780: 'Research Design',
+  870: 'Research Tools',
+  985: 'Research Pitches',
 };
 
 const SERIF = '"Source Serif 4", Georgia, serif';
@@ -41,7 +41,7 @@ export async function loadEngravingFonts() {
   try {
     await Promise.race([
       Promise.all([
-        document.fonts.load(`${NUMERAL_WEIGHT} 64px ${SERIF}`, '12:30'),
+        document.fonts.load(`${NUMERAL_WEIGHT} 64px ${SERIF}`, '10:00'),
         document.fonts.load(`500 24px ${MONO}`, 'WELCOME'),
       ]),
       new Promise((resolve) => setTimeout(resolve, 2500)),

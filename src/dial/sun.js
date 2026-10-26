@@ -27,7 +27,7 @@ export function sunAt(minutesPST, s = SITE) {
 }
 
 /** Minutes after midnight, PST. */
-export const T_START = 750;   // 12:30
-export const T_END = 1050;    // 5:30
+export const T_START = 600;   // 10:00
+export const T_END = 1065;    // 5:45
 export const SUNSET = 1023;   // 5:03, upper limb at the horizon (-0.83°)
-export const SESSIONS = [750, 780, 825, 870, 915, 960]; // 12:30 1:00 1:45 2:30 3:15 4:00
+export const SESSIONS = [600, 625, 670, 780, 870, 985]; // selected schedule milestones

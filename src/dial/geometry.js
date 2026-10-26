@@ -16,7 +16,7 @@ const FILLET = 0.003;
 const BOTTOM_CHAMFER = 0.006;
 
 // The gnomon is a bronze plate in the plane x ∈ [−0.430, −0.400] (0.03 thick:
-// at hero size a 0.022 plate cast too faint a sliver at 12:30).
+// at hero size a 0.022 plate cast too faint a sliver at the day's opening).
 // Its east face root is the origin of every afternoon hour line.
 export const LINE_ORIGIN = { x: -0.4, z: 0.47 };
 export const GNOMON = {

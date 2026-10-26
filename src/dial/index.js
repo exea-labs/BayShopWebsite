@@ -8,7 +8,7 @@ import { drawEngraving, loadEngravingFonts } from './engraving.js';
 import { bakeStone } from './bake.js';
 import { createDial } from './scene.js';
 import { place, VIEWS } from './camera.js';
-import { SESSIONS, T_START } from './sun.js';
+import { SESSIONS, T_END, T_START } from './sun.js';
 import { bakeSky } from './sky.js';
 
 const idle = (fn) =>
@@ -73,7 +73,7 @@ async function buildDial(renderer, size, { longExposure = false, tune } = {}) {
 /* ------------------------------------------------------------------------ */
 
 const HOURS_DISC_SHADOW = 1;
-const HERO_SWEEP = 75; // minutes the hero's sun advances as the hero scrolls away
+const HERO_SWEEP = 70; // 10:00 to the 11:10 research-question milestone
 
 export const POSTERS = {
   'hero-d': { width: 1600, height: 1000, view: 'hero-d' },
@@ -121,7 +121,7 @@ export async function renderPoster(id, { tune, samples = [], time, cam, disc } =
 
 /**
  * @param {object} o
- * @param {{ tau: number, smooth: boolean }} o.store  τ in minutes after 12:30, set by the schedule
+ * @param {{ tau: number, smooth: boolean }} o.store  τ in minutes after 10:00, set by the schedule
  * @param {(fn: () => void) => void} o.onScroll        subscribe to the page's scroll frames
  */
 export async function mountDial({ store, onScroll }) {
@@ -259,11 +259,11 @@ export async function mountDial({ store, onScroll }) {
       });
       dial.setDiscShadow(1);
       // The first scroll moves the sun: as the hero leaves, the shadow swings
-      // from 12:30 to the 1:45 line, the page's mechanic in miniature.
+      // from 10:00 to the 11:10 line, the page's mechanic in miniature.
       const t = T_START + exit * HERO_SWEEP;
       if (Math.abs(t - shownTime) > 1e-3) dial.setTime((shownTime = t));
     } else {
-      const target = clamp(store.tau || 0, 0, 300);
+      const target = clamp(store.tau || 0, 0, T_END - T_START);
       const k = store.smooth ? 1 : 1 - Math.exp(-10 * dt);
       tau += (target - tau) * k;
       if (Math.abs(target - tau) < 0.02) tau = target;
