@@ -14,7 +14,10 @@ const FINE_W = 0.0036; // arc and graduations
 const RHO_IN = 0.06;
 const RHO_OUT = 1.36;
 const RHO_ARC = 1.3;
-const NUMERAL_RHO = 1.17; // centre of each numeral along its line, inside the arc
+// The hour lines radiate from the off-centre gnomon, so a radius that looks
+// comfortable on the afternoon side can push the morning numerals beyond the
+// circular stone edge. Keep the complete label ring inside the face.
+const NUMERAL_RHO = 0.95;
 const NUMERAL_CAP = 0.048;
 const TITLE_CAP = 0.018;
 const TITLE_RHO = 0.5;
